@@ -2,7 +2,7 @@
   "name": "ValueVision",
   "short_name": "ValueVision",
   "description": "Transform money into time equivalents for smarter financial decisions",
-  "start_url": "/",
+  "start_url": "https://vincenek.github.io/ValueVision/",
   "display": "standalone",
   "background_color": "#4361ee",
   "theme_color": "#3a0ca3",
