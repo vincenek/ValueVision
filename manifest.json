@@ -1,0 +1,21 @@
+{
+  "name": "ValueVision",
+  "short_name": "ValueVision",
+  "description": "Transform money into time equivalents for smarter financial decisions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4361ee",
+  "theme_color": "#3a0ca3",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/WpwPQSJt/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/C57TkLVb/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
