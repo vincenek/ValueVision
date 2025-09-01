@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ValueVision | Time-Based Financial Awareness</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <!-- Web App Manifest -->
+    <!-- Web App Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
     <style>
@@ -883,6 +883,145 @@
             font-weight: 600;
         }
         
+        /* Expense Form */
+        .expense-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .expense-form .form-group:first-child {
+            grid-column: 1 / span 2;
+        }
+        
+        /* Category Badges */
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .category-food {
+            background: rgba(46, 196, 182, 0.15);
+            color: var(--success);
+        }
+        
+        .category-transport {
+            background: rgba(67, 97, 238, 0.15);
+            color: var(--primary);
+        }
+        
+        .category-entertainment {
+            background: rgba(255, 159, 28, 0.15);
+            color: var(--warning);
+        }
+        
+        .category-shopping {
+            background: rgba(231, 29, 54, 0.15);
+            color: var(--error);
+        }
+        
+        .category-utilities {
+            background: rgba(58, 12, 163, 0.15);
+            color: var(--secondary);
+        }
+        
+        .category-other {
+            background: rgba(76, 201, 240, 0.15);
+            color: var(--accent);
+        }
+        
+        /* Badges Section */
+        .badges-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            background: white;
+            border-radius: var(--radius);
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .badge.locked {
+            filter: grayscale(1);
+            opacity: 0.7;
+        }
+        
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .badge.locked .badge-icon {
+            background: #e0e7ff;
+            color: #a5b4cb;
+        }
+        
+        .badge-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .badge-desc {
+            font-size: 12px;
+            color: #7a7f9a;
+        }
+        
+        /* Insights Section */
+        .insight-item {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .insight-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 159, 28, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--warning);
+            font-size: 16px;
+        }
+        
+        .insight-content {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
         /* Responsive design */
         @media (max-width: 480px) {
             .container {
@@ -925,6 +1064,18 @@
             
             .history-item {
                 padding: 12px;
+            }
+            
+            .badges-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .expense-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .expense-form .form-group:first-child {
+                grid-column: 1;
             }
         }
     </style>
@@ -1069,8 +1220,11 @@
         <!-- Tab Navigation -->
         <div class="tabs">
             <div class="tab active" data-tab="calculator">Calculator</div>
+            <div class="tab" data-tab="expenses">Expenses</div>
             <div class="tab" data-tab="savings">Savings</div>
+            <div class="tab" data-tab="insights">Insights</div>
             <div class="tab" data-tab="history">History</div>
+            <div class="tab" data-tab="badges">Badges</div>
         </div>
         
         <!-- Main Content -->
@@ -1135,6 +1289,59 @@
                                     Financial Insight
                                 </div>
                                 <p id="insight-text">Enter values to see how purchases impact your time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expenses Tab -->
+            <div class="tab-content" id="expenses">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-money-bill-wave"></i> Log Expense</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="expense-form">
+                            <div class="form-group">
+                                <label for="expense-amount"><i class="fas fa-dollar-sign"></i> Amount</label>
+                                <div class="input-group">
+                                    <input type="number" id="expense-amount" placeholder="0.00" value="0">
+                                    <span>USD</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-category"><i class="fas fa-tag"></i> Category</label>
+                                <select id="expense-category">
+                                    <option value="food">Food</option>
+                                    <option value="transport">Transport</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-note"><i class="fas fa-sticky-note"></i> Note (optional)</label>
+                                <input type="text" id="expense-note" placeholder="What was this for?">
+                            </div>
+                        </div>
+                        <button class="btn" id="log-expense-btn">
+                            <i class="fas fa-plus-circle"></i> Log Expense
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-list"></i> Recent Expenses</div>
+                    </div>
+                    <div class="card-content">
+                        <div id="expenses-list">
+                            <div class="empty-state">
+                                <i class="fas fa-receipt"></i>
+                                <h3>No Expenses Yet</h3>
+                                <p>Your logged expenses will appear here</p>
                             </div>
                         </div>
                     </div>
@@ -1252,6 +1459,24 @@
                 </div>
             </div>
             
+            <!-- Insights Tab -->
+            <div class="tab-content" id="insights">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-lightbulb"></i> Financial Insights</div>
+                    </div>
+                    <div class="card-content">
+                        <div id="insights-content">
+                            <div class="empty-state">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>No Insights Yet</h3>
+                                <p>Start logging expenses to get personalized financial insights</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- History Tab -->
             <div class="tab-content" id="history">
                 <div class="card">
@@ -1264,6 +1489,61 @@
                                 <i class="fas fa-history"></i>
                                 <h3>No Financial History Yet</h3>
                                 <p>Your purchase evaluations and savings progress will appear here once you start using ValueVision</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Badges Tab -->
+            <div class="tab-content" id="badges">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-trophy"></i> Your Badges</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="badges-container" id="badges-container">
+                            <div class="badge locked" data-badge="starter">
+                                <div class="badge-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="badge-title">Starter</div>
+                                <div class="badge-desc">Log your first expense</div>
+                            </div>
+                            <div class="badge locked" data-badge="saver">
+                                <div class="badge-icon">
+                                    <i class="fas fa-piggy-bank"></i>
+                                </div>
+                                <div class="badge-title">Saver</div>
+                                <div class="badge-desc">Reach a savings goal</div>
+                            </div>
+                            <div class="badge locked" data-badge="consistency">
+                                <div class="badge-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="badge-title">Consistency</div>
+                                <div class="badge-desc">7-day logging streak</div>
+                            </div>
+                            <div class="badge locked" data-badge="frugal">
+                                <div class="badge-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <div class="badge-title">Frugal Spender</div>
+                                <div class="badge-desc">Spend less than you earn</div>
+                            </div>
+                            <div class="badge locked" data-badge="planner">
+                                <div class="badge-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="badge-title">Planner</div>
+                                <div class="badge-desc">Set 3 savings goals</div>
+                            </div>
+                            <div class="badge locked" data-badge="analyst">
+                                <div class="badge-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <div class="badge-title">Financial Analyst</div>
+                                <div class="badge-desc">Log 50 expenses</div>
                             </div>
                         </div>
                     </div>
@@ -1292,11 +1572,18 @@
             currentGoal: null,
             purchases: [],
             timeBank: 0,
-            level: 1
+            level: 1,
+            expenses: [],
+            badges: [],
+            lastLogDate: null,
+            logStreak: 0
         };
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
+            // Load data from localStorage
+            loadState();
+            
             // Set up tab functionality
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -1320,6 +1607,9 @@
             
             // Set up edit goal button
             document.getElementById('edit-goal-btn').addEventListener('click', editGoal);
+            
+            // Set up log expense button
+            document.getElementById('log-expense-btn').addEventListener('click', logExpense);
             
             // Set up settings toggle
             document.getElementById('settings-toggle').addEventListener('click', toggleSettings);
@@ -1347,6 +1637,27 @@
             updateUI();
         });
         
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('valueVisionState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                Object.assign(state, parsedState);
+                
+                // Update form fields with saved values
+                document.getElementById('hourly-rate').value = state.hourlyRate;
+                document.getElementById('daily-hours').value = state.dailyHours;
+                
+                // Update UI elements
+                updateBadges();
+            }
+        }
+        
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('valueVisionState', JSON.stringify(state));
+        }
+        
         // Toggle settings panel
         function toggleSettings() {
             const settingsPanel = document.getElementById('settings-panel');
@@ -1367,6 +1678,10 @@
                 state.currentGoal = null;
                 state.purchases = [];
                 state.timeBank = 0;
+                state.expenses = [];
+                state.badges = [];
+                state.lastLogDate = null;
+                state.logStreak = 0;
                 
                 // Reset form fields
                 document.getElementById('hourly-rate').value = '0';
@@ -1377,6 +1692,8 @@
                 document.getElementById('goal-amount').value = '0';
                 document.getElementById('saved-amount').value = '0';
                 document.getElementById('daily-savings').value = '0';
+                document.getElementById('expense-amount').value = '0';
+                document.getElementById('expense-note').value = '';
                 
                 // Hide results
                 document.getElementById('time-result').style.display = 'none';
@@ -1392,10 +1709,34 @@
                     </div>
                 `;
                 
+                // Clear expenses
+                document.getElementById('expenses-list').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <h3>No Expenses Yet</h3>
+                        <p>Your logged expenses will appear here</p>
+                    </div>
+                `;
+                
+                // Clear insights
+                document.getElementById('insights-content').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>No Insights Yet</h3>
+                        <p>Start logging expenses to get personalized financial insights</p>
+                    </div>
+                `;
+                
                 // Reset stats
                 document.getElementById('stat-spent').textContent = '$0.00';
                 document.getElementById('stat-hours').textContent = '0';
                 document.getElementById('stat-saved').textContent = '$0.00';
+                
+                // Reset badges
+                updateBadges();
+                
+                // Save state
+                saveState();
                 
                 // Show toast
                 showToast('Application data has been reset');
@@ -1444,6 +1785,7 @@
             
             // Update state
             state.hourlyRate = hourlyRate;
+            saveState();
             
             // Calculate minutes of work needed
             const minutesOfWork = Math.round((itemCost / hourlyRate) * 60);
@@ -1486,6 +1828,304 @@
             // Update stats and history
             updateStats();
             updateHistory();
+            saveState();
+        }
+        
+        // Log expense
+        function logExpense() {
+            const amount = parseFloat(document.getElementById('expense-amount').value) || 0;
+            const category = document.getElementById('expense-category').value;
+            const note = document.getElementById('expense-note').value;
+            
+            if (amount <= 0) {
+                showToast("Please enter a valid expense amount");
+                return;
+            }
+            
+            // Check if this is the first expense
+            const isFirstExpense = state.expenses.length === 0;
+            
+            // Add to expenses
+            const expense = {
+                amount,
+                category,
+                note,
+                date: new Date()
+            };
+            
+            state.expenses.push(expense);
+            
+            // Check for logging streak
+            checkLoggingStreak();
+            
+            // Check for badges
+            checkBadges(isFirstExpense);
+            
+            // Update UI
+            updateExpensesList();
+            updateInsights();
+            updateStats();
+            
+            // Save state
+            saveState();
+            
+            // Show toast
+            showToast('Expense logged successfully!');
+            
+            // Clear form
+            document.getElementById('expense-amount').value = '0';
+            document.getElementById('expense-note').value = '';
+        }
+        
+        // Check logging streak
+        function checkLoggingStreak() {
+            const today = new Date().toDateString();
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toDateString();
+            
+            if (state.lastLogDate === today) {
+                // Already logged today
+                return;
+            }
+            
+            if (state.lastLogDate === yesterdayStr) {
+                // Continuing streak
+                state.logStreak++;
+            } else {
+                // Broken streak, reset to 1
+                state.logStreak = 1;
+            }
+            
+            state.lastLogDate = today;
+            
+            // Check for consistency badge
+            if (state.logStreak >= 7 && !state.badges.includes('consistency')) {
+                state.badges.push('consistency');
+                showToast('Congratulations! You earned the Consistency Badge!');
+                updateBadges();
+            }
+        }
+        
+        // Check for badges
+        function checkBadges(isFirstExpense) {
+            // Starter badge (first expense)
+            if (isFirstExpense && !state.badges.includes('starter')) {
+                state.badges.push('starter');
+                showToast('Congratulations! You earned the Starter Badge!');
+                updateBadges();
+            }
+            
+            // Financial Analyst badge (50 expenses)
+            if (state.expenses.length >= 50 && !state.badges.includes('analyst')) {
+                state.badges.push('analyst');
+                showToast('Congratulations! You earned the Financial Analyst Badge!');
+                updateBadges();
+            }
+            
+            // Check if spending less than earning (frugal badge)
+            const totalSpent = state.expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const totalEarned = state.hourlyRate * state.dailyHours * 30; // Approximate monthly
+            if (totalSpent < totalEarned && !state.badges.includes('frugal')) {
+                state.badges.push('frugal');
+                showToast('Congratulations! You earned the Frugal Spender Badge!');
+                updateBadges();
+            }
+        }
+        
+        // Update expenses list
+        function updateExpensesList() {
+            const expensesList = document.getElementById('expenses-list');
+            
+            if (state.expenses.length === 0) {
+                expensesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <h3>No Expenses Yet</h3>
+                        <p>Your logged expenses will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            expensesList.innerHTML = '';
+            
+            // Show last 10 expenses
+            state.expenses.slice().reverse().slice(0, 10).forEach(expense => {
+                const date = new Date(expense.date);
+                const hoursNeeded = (expense.amount / state.hourlyRate).toFixed(1);
+                
+                let categoryClass = 'category-other';
+                switch(expense.category) {
+                    case 'food': categoryClass = 'category-food'; break;
+                    case 'transport': categoryClass = 'category-transport'; break;
+                    case 'entertainment': categoryClass = 'category-entertainment'; break;
+                    case 'shopping': categoryClass = 'category-shopping'; break;
+                    case 'utilities': categoryClass = 'category-utilities'; break;
+                }
+                
+                expensesList.innerHTML += `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-name">${expense.note || expense.category}</div>
+                            <div class="history-date">${formatDate(date)}</div>
+                            <span class="category-badge ${categoryClass}">${expense.category}</span>
+                        </div>
+                        <div class="history-amount" style="color: var(--error);">$${expense.amount.toFixed(2)}</div>
+                    </div>
+                    <div style="font-size: 12px; color: #7a7f9a; margin-top: -10px; margin-bottom: 15px;">
+                        <i class="fas fa-clock"></i> ${hoursNeeded} hours of work
+                    </div>
+                `;
+            });
+        }
+        
+        // Update insights
+        function updateInsights() {
+            const insightsContent = document.getElementById('insights-content');
+            
+            if (state.expenses.length === 0) {
+                insightsContent.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>No Insights Yet</h3>
+                        <p>Start logging expenses to get personalized financial insights</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calculate category totals
+            const categoryTotals = {};
+            state.expenses.forEach(expense => {
+                if (!categoryTotals[expense.category]) {
+                    categoryTotals[expense.category] = 0;
+                }
+                categoryTotals[expense.category] += expense.amount;
+            });
+            
+            // Find biggest category
+            let biggestCategory = '';
+            let biggestAmount = 0;
+            for (const category in categoryTotals) {
+                if (categoryTotals[category] > biggestAmount) {
+                    biggestAmount = categoryTotals[category];
+                    biggestCategory = category;
+                }
+            }
+            
+            // Calculate time equivalents
+            const biggestCategoryHours = (biggestAmount / state.hourlyRate).toFixed(1);
+            
+            insightsContent.innerHTML = '';
+            
+            // Generate insights based on data
+            if (biggestCategory) {
+                insightsContent.innerHTML += `
+                    <div class="insight-item">
+                        <div class="insight-header">
+                            <div class="insight-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="insight-title">Biggest Expense Category</div>
+                        </div>
+                        <div class="insight-content">
+                            Your biggest expense is <strong>${biggestCategory}</strong> at $${biggestAmount.toFixed(2)}.
+                            That's <strong>${biggestCategoryHours} hours</strong> of work!
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Weekly total insight
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            
+            const weeklyExpenses = state.expenses.filter(expense => {
+                return new Date(expense.date) > oneWeekAgo;
+            });
+            
+            const weeklyTotal = weeklyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const weeklyHours = (weeklyTotal / state.hourlyRate).toFixed(1);
+            
+            insightsContent.innerHTML += `
+                <div class="insight-item">
+                    <div class="insight-header">
+                        <div class="insight-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="insight-title">Weekly Spending</div>
+                    </div>
+                    <div class="insight-content">
+                        You've spent <strong>$${weeklyTotal.toFixed(2)}</strong> this week.
+                        That's <strong>${weeklyHours} hours</strong> of your time!
+                    </div>
+                </div>
+            `;
+            
+            // Monthly total insight
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            
+            const monthlyExpenses = state.expenses.filter(expense => {
+                return new Date(expense.date) > oneMonthAgo;
+            });
+            
+            const monthlyTotal = monthlyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const monthlyHours = (monthlyTotal / state.hourlyRate).toFixed(1);
+            
+            insightsContent.innerHTML += `
+                <div class="insight-item">
+                    <div class="insight-header">
+                        <div class="insight-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="insight-title">Monthly Spending</div>
+                    </div>
+                    <div class="insight-content">
+                        You've spent <strong>$${monthlyTotal.toFixed(2)}</strong> this month.
+                        That's <strong>${monthlyHours} hours</strong> of your time!
+                    </div>
+                </div>
+            `;
+            
+            // Savings vs spending insight
+            const totalSaved = state.currentGoal ? state.currentGoal.saved : 0;
+            
+            if (monthlyTotal > 0) {
+                const savingsRatio = (totalSaved / monthlyTotal).toFixed(1);
+                
+                insightsContent.innerHTML += `
+                    <div class="insight-item">
+                        <div class="insight-header">
+                            <div class="insight-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="insight-title">Savings vs Spending</div>
+                        </div>
+                        <div class="insight-content">
+                            You've saved <strong>$${totalSaved.toFixed(2)}</strong> while spending <strong>$${monthlyTotal.toFixed(2)}</strong> this month.
+                            ${savingsRatio > 1 ? 'Great job saving more than you spend!' : 'Try to save more than you spend next month!'}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Update badges display
+        function updateBadges() {
+            const badgesContainer = document.getElementById('badges-container');
+            const badgeElements = badgesContainer.querySelectorAll('.badge');
+            
+            badgeElements.forEach(badge => {
+                const badgeType = badge.getAttribute('data-badge');
+                
+                if (state.badges.includes(badgeType)) {
+                    badge.classList.remove('locked');
+                } else {
+                    badge.classList.add('locked');
+                }
+            });
         }
         
         // Save goal
@@ -1512,10 +2152,20 @@
             // Add to goals if new
             if (!state.goals.some(g => g.name === name)) {
                 state.goals.push({...state.currentGoal});
+                
+                // Check for planner badge (3 goals)
+                if (state.goals.length >= 3 && !state.badges.includes('planner')) {
+                    state.badges.push('planner');
+                    showToast('Congratulations! You earned the Planner Badge!');
+                    updateBadges();
+                }
             }
             
             // Update UI
             updateSavingsGoal();
+            
+            // Save state
+            saveState();
             
             // Show toast
             showToast('Savings goal created!');
@@ -1540,6 +2190,14 @@
             // Prevent saving more than target
             if (state.currentGoal.saved > state.currentGoal.target) {
                 state.currentGoal.saved = state.currentGoal.target;
+                
+                // Check for saver badge
+                if (!state.badges.includes('saver')) {
+                    state.badges.push('saver');
+                    showToast('Congratulations! You earned the Saver Badge!');
+                    updateBadges();
+                }
+                
                 showToast("Congratulations! You've reached your savings goal!");
             }
             
@@ -1554,6 +2212,9 @@
             // Update UI
             updateSavingsGoal();
             updateHistory();
+            
+            // Save state
+            saveState();
             
             // Show toast
             showToast(`Added $${amount} to your savings!`);
@@ -1645,7 +2306,7 @@
             // Clear current history
             historyList.innerHTML = '';
             
-            if (state.purchases.length === 0 && state.history.length === 0) {
+            if (state.purchases.length === 0 && state.history.length === 0 && state.expenses.length === 0) {
                 historyList.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-history"></i>
@@ -1685,6 +2346,31 @@
                     </div>
                 `;
             });
+            
+            // Add expenses to history
+            state.expenses.slice().reverse().forEach(expense => {
+                const date = new Date(expense.date);
+                
+                let categoryClass = 'category-other';
+                switch(expense.category) {
+                    case 'food': categoryClass = 'category-food'; break;
+                    case 'transport': categoryClass = 'category-transport'; break;
+                    case 'entertainment': categoryClass = 'category-entertainment'; break;
+                    case 'shopping': categoryClass = 'category-shopping'; break;
+                    case 'utilities': categoryClass = 'category-utilities'; break;
+                }
+                
+                historyList.innerHTML += `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-name">${expense.note || expense.category}</div>
+                            <div class="history-date">${formatDate(date)}</div>
+                            <span class="category-badge ${categoryClass}">${expense.category}</span>
+                        </div>
+                        <div class="history-amount" style="color: var(--error);">$${expense.amount.toFixed(2)}</div>
+                    </div>
+                `;
+            });
         }
         
         // Format date for display
@@ -1718,15 +2404,18 @@
             }
             
             updateHistory();
+            updateExpensesList();
+            updateInsights();
+            updateBadges();
         }
         
         // Update stats
         function updateStats() {
             // Calculate spent today
             const today = new Date().toDateString();
-            const spentToday = state.purchases
-                .filter(p => new Date(p.date).toDateString() === today)
-                .reduce((sum, p) => sum + p.cost, 0)
+            const spentToday = state.expenses
+                .filter(e => new Date(e.date).toDateString() === today)
+                .reduce((sum, e) => sum + e.amount, 0)
                 .toFixed(2);
             
             // Hours worked - in a real app this would be user input
